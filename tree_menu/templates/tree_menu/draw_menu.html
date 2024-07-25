@@ -1,0 +1,24 @@
+<ul class="navbar-nav">
+    {% if menu %}
+        {% for item in items %}
+            {% if not item.parent %}
+                <li class="nav-item {% if item.children.all %}dropdown{% endif %}">
+                    {% if item.get_url %}
+                        <a class="nav-link {% if item.children.all %}dropdown-toggle{% endif %}" href="{{ item.get_url }}">
+                            {{ item.name }}
+                        </a>
+                    {% else %}
+                        <span class="nav-link {% if item.children.all %}dropdown-toggle{% endif %}">
+                            {{ item.name }}
+                        </span>
+                    {% endif %}
+                    {% if item.children.all %}
+                        {% include 'tree_menu/menu_item.html' with items=items parent=item %}
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>Меню не найдено.</p>
+    {% endif %}
+</ul>

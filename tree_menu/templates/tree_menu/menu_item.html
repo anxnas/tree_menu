@@ -1,0 +1,22 @@
+{% if items|length > 0 %}
+    <ul class="dropdown-menu">
+        {% for child in items %}
+            {% if child.parent == parent %}
+                <li class="dropdown-submenu">
+                    {% if child.get_url %}
+                        <a class="dropdown-item {% if child.children.all %}dropdown-toggle{% endif %}" href="{{ child.get_url }}">
+                            {{ child.name }}
+                        </a>
+                    {% else %}
+                        <span class="dropdown-item {% if child.children.all %}dropdown-toggle{% endif %}">
+                            {{ child.name }}
+                        </span>
+                    {% endif %}
+                    {% if child.children.all %}
+                        {% include 'tree_menu/menu_item.html' with items=items parent=child %}
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endif %}
